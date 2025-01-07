@@ -1,0 +1,61 @@
+---
+import type { SEOProps } from './SEO'
+
+interface Props extends SEOProps {}
+
+const {
+    title,
+    url,
+    faviconUrl,
+    description,
+    canonical,
+    prefetchGTAG,
+    prefetchGA,
+    noIndex,
+    meta,
+    hrefLangs,
+    structuredContents
+} = Astro.props
+---
+
+<title>{title}</title>
+
+{prefetchGTAG && (
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com/" />
+)}
+
+{prefetchGA && (
+    <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
+)}
+
+<link rel="icon" type="image/x-icon" href={faviconUrl} />
+<link rel="canonical" href={canonical || url} />
+
+{hrefLangs?.map(hrefLang => (
+    <link rel="alternate" hreflang={hrefLang.hreflang} href={hrefLang.href} />
+))}
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content={description} />
+<meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+<meta name="og:url" content={url} />
+<meta name="og:title" content={title} />
+<meta name="og:description" content={description} />
+<meta name="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+
+{meta?.map(meta => (
+    <meta name={meta.name} content={meta.content} />
+))}
+
+{structuredContents?.filter(Boolean).map(structuredContent => (
+    <script
+        is:inline
+        type="application/ld+json"
+        data-id={import.meta.env.DEV ? `${structuredContent['@type']}Schema` : null}
+        set:html={JSON.stringify(structuredContent, null, import.meta.env.DEV ? 4 : 0)}
+    />
+))}

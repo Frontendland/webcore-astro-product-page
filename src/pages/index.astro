@@ -1,0 +1,158 @@
+---
+import {
+	Icon,
+	type PaginationProps,
+	type ButtonProps
+} from 'webcoreui/astro'
+
+import ProductPage from '@components/ProductPage/ProductPage.astro'
+
+import logo from '../../public/logo.svg?raw'
+
+const layout = {
+    seo: {
+        title: 'Product Page Template - Webcore',
+        url: 'https://webcoreui.dev/',
+        description: 'A customizable and easy to use template for products.',
+        faviconUrl: '/logo.svg'
+    },
+    menu: {
+        logo: {
+            html: logo
+        }
+    },
+    footer: {
+        logo: {
+            html: logo
+        },
+        columns: [
+            {
+                title: 'Sitemap',
+                items: [
+                    { href: '/', name: 'Home' }
+                ]
+            }
+        ],
+        subText: `© ${new Date().getFullYear()} Webcore. All Rights Reserved.`
+    }
+}
+
+const images =  Array
+    .from({ length: 3 }, (_, i) => i + 1)
+    .map(i => ({
+        src: `/img/placeholder-hd${i}.png`,
+        alt: 'img',
+        width: 1200,
+        height: 250
+    }))
+
+const carousel = {
+    pagination: {
+        type: 'dots' as PaginationProps['type']
+    }
+}
+
+const recommended = {
+    items: Array
+        .from({ length: 3 }, (_, i) => i + 1)
+        .map(i => ({
+            href: '#',
+            img: {
+                src: `/img/placeholder${i}.png`,
+                alt: 'img',
+                width: 500,
+                height: 250
+            },
+            title: `Recommended Card #${i + 1}`,
+            text: 'You can also pass <b>HTML</b> tags to your recommended cards.'
+        }))
+}
+
+const buttons = [
+    { text: 'Get Started ->' },
+    { text: 'Demo', theme: 'secondary' as ButtonProps['theme'] }
+]
+
+const features = [
+    'Easily configure your menu and footer',
+    'Add carousel for preview images',
+    'Define your main content the way you want',
+    'Customize your call to actions',
+    'List features',
+    'Add recommendations'
+].map(feature => ({
+    icon: 'circle-check',
+    color: 'var(--w-color-success)',
+    text: feature
+}))
+---
+
+<ProductPage
+    layout={layout}
+    images={images}
+    carousel={carousel}
+    recommended={recommended}
+    buttons={buttons}
+    features={features}
+>
+    <a
+        slot="menu"
+        href="https://github.com/Frontendland/webcoreui"
+        target="_blank"
+        rel="noreferrer"
+    >
+        <Icon type="github" size={18} />
+    </a>
+
+    <a class="muted" href="https://webcoreui.dev/templates">{'<-'} Back to all templates</a>
+
+    <h1>Astro Product Page</h1>
+    <h2 class="muted">Customizable and easy to setup template for your products</h2>
+
+    <p>
+        This template is designed to help you create professional product pages with minimal effort while offering full customization to meet your needs. To ensure a seamless user experience, the layout is fully-responsive and optimized for all devices.
+    </p>
+
+    <hr />
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>
+            <b>Menu and Footer Configuration:</b>
+            Quickly set up and customize your navigation and footer to match your site’s structure and style.
+        </li>
+        <li>
+            <b>Image Carousel:</b>
+            Showcase product images with an interactive carousel for a more engaging user experience.
+        </li>
+        <li>
+            <b>Flexible Content Layout:</b>
+            Define your main content the way you want—whether it’s a detailed description, video, or anything else that suits your product.
+        </li>
+        <li>
+            <b>Customizable Call-to-Actions (CTAs):</b>
+            Design CTAs that fit your brand and guide users toward the actions that matter most.
+        </li>
+        <li>
+            <b>Feature Listing:</b>
+            Highlight product features in a clear, organized way to inform and attract customers.
+        </li>
+        <li>
+            <b>Recommendation Section:</b>
+            Add recommendations or related products to enhance discoverability and boost engagement.
+        </li>
+    </ul>
+</ProductPage>
+
+<style lang="scss">
+    @use 'webcoreui/config' as *;
+
+    h1 {
+        @include spacing(mt-default);
+    }
+
+    h2 {
+        @include typography(lg, 400, regular);
+        @include spacing(m0);
+    }
+</style>
